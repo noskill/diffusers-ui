@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Generator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/static/script.js"></script>
+    <style>
+        /* Add your desired styles here */
+    </style>
+</head>
+<body>
+    <h1>Image Generator</h1>
+    
+    <form id="image-generator-form">
+        <label for="text-prompt">Text Prompt:</label>
+        <input type="text" id="text-prompt" name="text-prompt">
+        
+        <label for="inference-steps">Inference Steps:</label>
+        <input type="number" id="inference-steps" name="inference-steps" min="1" value="1">
+        
+        <button type="submit">Generate Image</button>
+    </form>
+    
+    <div id="image-container">
+        <!-- Image will be displayed here -->
+    </div>
+    
+    <script>
+        // Add your JavaScript code here
+    </script>
+</body>
+</html>
