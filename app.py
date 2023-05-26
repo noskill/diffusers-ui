@@ -62,6 +62,8 @@ async def check_task_status_handler(request):
         except Exception as e:
             logger.error("error generating image", exc_info=e)
             return web.json_response({"status": "error", "message": str(e)})
+        finally:
+            del tasks[task_id]
     else:
         logger.info("returning pending for " + task_id)
         return web.json_response({"status": "pending"})
