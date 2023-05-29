@@ -1,4 +1,27 @@
 $(document).ready(function() {
+    // Populate the model dropdown list on page load
+    $.ajax({
+        type: "GET",
+        url: "/api/models", // Replace with the URL of your backend endpoint
+        success: function(response) {
+            var models = response.models; // Assuming the response contains the list of available models
+            
+            // Populate the dropdown list with model options
+            var modelDropdown = $("#model-id");
+            for (var i = 0; i < models.length; i++) {
+                var model = models[i];
+                var option = $('<option>', {
+                    value: model,
+                    text: model
+                });
+                modelDropdown.append(option);
+            }
+        },
+        error: function() {
+            alert("Error loading available models");
+        }
+    });
+
     // Submit form
     $("#image-generator-form").submit(function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
@@ -6,12 +29,21 @@ $(document).ready(function() {
         // Get input values
         var textPrompt = $("#text-prompt").val();
         var inferenceSteps = $("#inference-steps").val();
+        var seed = $("#seed").val();
+        var modelId = $("#model-id").val();
+        var height = $("#height").val();
+        var width = $("#width").val();
         
         // Create the request payload as a JavaScript object
         var requestData = {
             textPrompt: textPrompt,
-            inferenceSteps: inferenceSteps
+            inferenceSteps: inferenceSteps,
+            seed: seed,
+            modelId: modelId,
+            height: height,
+            width: width
         };
+
         // Send request to start image generation
         $.ajax({
             type: "POST",
