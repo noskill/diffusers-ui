@@ -21,6 +21,32 @@ $(document).ready(function() {
             alert("Error loading available models");
         }
     });
+    
+    // Populate the scheduler dropdown list on page load
+    $.ajax({
+        type: "GET",
+        url: "/api/schedulers", // Replace with the URL of your backend endpoint
+        success: function(response) {
+            var schedulers = response.schedulers; // Assuming the response contains the list of available schedulers
+
+            // Populate the dropdown list with scheduler options
+            var schedulerDropdown = $("#scheduler-id");
+            for (var i = 0; i < schedulers.length; i++) {
+                var scheduler = schedulers[i];
+                var option = $('<option>', {
+                    value: scheduler,
+                    text: scheduler
+                });
+                schedulerDropdown.append(option);
+            }
+            
+            // Set the default scheduler value
+            schedulerDropdown.val(schedulers[0]);
+        },
+        error: function() {
+            alert("Error loading available schedulers");
+        }
+    });
 
     // Submit form
     $("#image-generator-form").submit(function(event) {
@@ -33,6 +59,7 @@ $(document).ready(function() {
         var modelId = $("#model-id").val();
         var height = $("#height").val();
         var width = $("#width").val();
+        var schedulerId = $("#scheduler-id").val(); // Added schedulerId
         
         // Create the request payload as a JavaScript object
         var requestData = {
@@ -41,7 +68,8 @@ $(document).ready(function() {
             seed: seed,
             modelId: modelId,
             height: height,
-            width: width
+            width: width,
+            schedulerId: schedulerId // Added schedulerId
         };
 
         // Send request to start image generation

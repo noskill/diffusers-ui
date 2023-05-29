@@ -1,2 +1,5 @@
-- stabilityai/stable-diffusion-2-1
-- runwayml/stable-diffusion-v1-5 
+models:
+  - name: stabilityai/stable-diffusion-2-1
+    path: /home/imgen/models/stable-diffusion-2-1
+  - name: runwayml/stable-diffusion-v1-5
+
