@@ -27,7 +27,8 @@ def load_model(model_id):
     return pipe
 
 
-def generate(pipe, prompt, steps, height, width, seed=None, scheduler=None):
+def generate(pipe, prompt, steps, height, width, seed, **kwargs):
+    scheduler = kwargs.get('scheduler', None)
     if scheduler is None:
         # Use the existing scheduler if scheduler is None
         pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
@@ -42,9 +43,10 @@ def generate(pipe, prompt, steps, height, width, seed=None, scheduler=None):
         except (ImportError, AttributeError):
             raise ValueError("Invalid scheduler specified")
     
+    kwargs.pop('scheduler')
     generator = torch.Generator("cuda").manual_seed(seed)
     for image in pipe(prompt=prompt, num_inference_steps=steps, generator=generator,
-                      height=height, width=width).images:
+                      height=height, width=width, **kwargs).images:
         return image
     
 

@@ -59,7 +59,8 @@ $(document).ready(function() {
         var modelId = $("#model-id").val();
         var height = $("#height").val();
         var width = $("#width").val();
-        var schedulerId = $("#scheduler-id").val(); // Added schedulerId
+        var schedulerId = $("#scheduler-id").val(); 
+        var guidanceScale = $("#guidance_scale").val(); 
         
         // Create the request payload as a JavaScript object
         var requestData = {
@@ -69,7 +70,8 @@ $(document).ready(function() {
             modelId: modelId,
             height: height,
             width: width,
-            schedulerId: schedulerId // Added schedulerId
+            schedulerId: schedulerId,
+            guidanceScale: guidanceScale
         };
 
         // Send request to start image generation

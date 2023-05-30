@@ -40,7 +40,7 @@ async def get_models(request):
     return web.Response(text=models_json, content_type="application/json")
 
 
-def generate_image(text_prompt, inference_steps, model_id, seed, height, width, scheduler):
+def generate_image(text_prompt, inference_steps, model_id, seed, height, width, scheduler, guidance_scale):
     global model
     # Load the model if it's not present
     if model_id not in model:
@@ -51,7 +51,7 @@ def generate_image(text_prompt, inference_steps, model_id, seed, height, width, 
     logger.info('seed: ' + str(seed))
 
     params = dict(pipe=model[model_id], prompt=text_prompt, steps=inference_steps, 
-                  seed=seed, height=height, width=width, scheduler=scheduler)
+                  seed=seed, height=height, width=width, scheduler=scheduler, guidance_scale=guidance_scale)
 
     paras = {k: v for (k, v) in params.items() if v is not None}
     image = generate(**params)
@@ -75,6 +75,9 @@ async def generate_image_handler(request):
         seed = int(seed)
     height = int(data.get("height", 768))
     width = int(data.get("width", 768))
+    guidance_scale = float(data.get("guidanceScale", -1))
+    if guidance_scale < 0:
+        guidance_scale = None
 
     # Generate a UUID for the task
     jobId = str(uuid.uuid4())
@@ -82,7 +85,7 @@ async def generate_image_handler(request):
     # Run the image generation task in the asyncio threadpool executor
     loop = asyncio.get_event_loop()
     task = loop.run_in_executor(
-        None, generate_image, text_prompt, inference_steps, model_id, seed, height, width, scheduler
+        None, generate_image, text_prompt, inference_steps, model_id, seed, height, width, scheduler, guidance_scale
     )
 
     # Store the task in a global dictionary or database using the task_id as the key
