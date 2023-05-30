@@ -101,27 +101,29 @@ $(document).ready(function() {
     function checkJobStatus(jobId) {
         $.ajax({
             type: "GET",
-            url: "/api/check", // Replace with the URL of your backend endpoint
+            url: "/api/check",
             data: {
                 jobId: jobId
             },
             success: function(response) {
                 if (response.status === "completed") {
-                    var imageData = response.image_base64; // Assuming the response contains the base64 image data
-                    
-                    // Display the generated image
+                    $("#image-generation").hide();
+                    var imageData = response.image_base64;
                     $("#image-container").html('<img src="data:image/png;base64,' + imageData + '">');
                 } else if (response.status === "pending" || response.status === "processing") {
-                    // Job is still pending or processing, continue checking
+                    $("#image-generation").show();
+                    var progress = response.step / response.steps * 100; // Calculate the progress percentage
+                    $("#image-generation").val(progress);
                     setTimeout(function() {
                         checkJobStatus(jobId);
-                    }, 2000); // Wait for 2 seconds before checking again (adjust as needed)
+                    }, 1000); // Wait for 2 seconds before checking again (adjust as needed)
                 } else {
-                    // Job failed or encountered an error
+                    $("#image-generation").hide();
                     alert("Image generation failed. Please try again.");
                 }
             },
             error: function() {
+                $("#image-generation").hide();
                 alert("Error checking job status");
             }
         });

@@ -49,4 +49,6 @@ button[type="submit"] {
     margin-top: 20px;
 }
 
-/* Add your additional styles here */
+#image-generation {
+    display: none;
+}
