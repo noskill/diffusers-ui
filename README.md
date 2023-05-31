@@ -10,7 +10,7 @@ then run python3 app.py
 
 pip install -r requirements.txt
 
-models yaml can contain path to locally downloaded model or just a model id from huggingface
+models.yaml can contain path to locally downloaded model or just a model id from huggingface
 
 ```
 models:
