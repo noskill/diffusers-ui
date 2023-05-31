@@ -39,6 +39,11 @@ select {
     height: 100px;
 }
 
+#negative-text-prompt {
+    height: 100px;
+}
+
+
 button[type="submit"] {
     display: block;
     margin: 20px auto;

@@ -41,7 +41,7 @@ class ImageGenerator:
         # Return JSON response
         return web.Response(text=models_json, content_type="application/json")
 
-    def generate_image(self, text_prompt, inference_steps, model_id, seed, height, width, scheduler, guidance_scale, callback):
+    def generate_image(self, text_prompt, negative_prompt, inference_steps, model_id, seed, height, width, scheduler, guidance_scale, callback):
         model = self.model
         # Load the model if it's not present
         if model_id not in model:
@@ -53,9 +53,10 @@ class ImageGenerator:
 
         params = dict(pipe=model[model_id], prompt=text_prompt, steps=inference_steps, 
                     seed=seed, height=height, width=width, scheduler=scheduler, 
-                    guidance_scale=guidance_scale, callback=callback)
+                    guidance_scale=guidance_scale, callback=callback, negative_prompt=negative_prompt)
 
         params = {k: v for (k, v) in params.items() if v is not None}
+        logger.info("calling generate with params %s", params)
         image = generate(**params)
         img_bytes_io = io.BytesIO()
         image.save(img_bytes_io, format='PNG')
@@ -70,6 +71,7 @@ class ImageGenerator:
         inference_steps = int(data.get("inferenceSteps"))
         model_id = data.get("modelId")
         scheduler = data.get("schedulerId")
+        negative_prompt = data.get("negativeTextPrompt", "")
         seed = data.get("seed", None)
         if seed is not None:
             seed = int(seed)
@@ -93,7 +95,8 @@ class ImageGenerator:
             "seed": seed,
             "height": height,
             "width": width,
-            "guidance_scale": guidance_scale
+            "guidance_scale": guidance_scale,
+            "negative_prompt": negative_prompt
         }
         
         # Create a progress callback function
@@ -105,7 +108,7 @@ class ImageGenerator:
         # Run the image generation task in the asyncio threadpool executor
         loop = asyncio.get_event_loop()
         task = loop.run_in_executor(
-            None, self.generate_image, text_prompt, inference_steps, model_id, seed, height, width, scheduler,
+            None, self.generate_image, text_prompt, negative_prompt, inference_steps, model_id, seed, height, width, scheduler,
             guidance_scale, progress_callback
         )
 

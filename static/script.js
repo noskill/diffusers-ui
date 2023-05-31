@@ -54,6 +54,7 @@ $(document).ready(function() {
         
         // Get input values
         var textPrompt = $("#text-prompt").val();
+        var negativeTextPrompt = $("#negative-text-prompt").val();
         var inferenceSteps = $("#inference-steps").val();
         var seed = $("#seed").val();
         var modelId = $("#model-id").val();
@@ -71,7 +72,8 @@ $(document).ready(function() {
             height: height,
             width: width,
             schedulerId: schedulerId,
-            guidanceScale: guidanceScale
+            guidanceScale: guidanceScale,
+            negativeTextPrompt: negativeTextPrompt
         };
 
         // Send request to start image generation

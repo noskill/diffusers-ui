@@ -21,7 +21,10 @@
         <div class="controls-section">
             <form id="image-generator-form">
                 <label for="text-prompt">Text Prompt:</label>
-                <textarea id="text-prompt" name="text-prompt"></textarea>
+                <textarea id="text-prompt" name="text-prompt">a high quality professional image</textarea>
+                
+                <label for="negative-text-prompt">Negative Prompt:</label>
+                <textarea id="negative-text-prompt" name="negative-text-prompt">out of frame, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, poorly rendered face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers</textarea>
                 
                 <label for="inference-steps">Inference Steps:</label>
                 <input type="number" id="inference-steps" name="inference-steps" min="1" value="50">
