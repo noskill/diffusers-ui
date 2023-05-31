@@ -15,7 +15,7 @@ models.yaml can contain path to locally downloaded model or just a model id from
 ```
 models:
   - name: stabilityai/stable-diffusion-2-1
-    path: /home/imgen/models/stable-diffusion-2-1  # local path - model won't be download to cache
+    path: /home/imgen/models/stable-diffusion-2-1  # local path - model won't be downloaded to cache
   - name: runwayml/stable-diffusion-v1-5
 ```
 
