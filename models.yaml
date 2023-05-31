@@ -1,5 +1,5 @@
 models:
   - name: stabilityai/stable-diffusion-2-1
-    path: /home/imgen/models/stable-diffusion-2-1
+ #   path: /home/imgen/models/stable-diffusion-2-1  # uncomment and set this if you have model on a local path
   - name: runwayml/stable-diffusion-v1-5
 
